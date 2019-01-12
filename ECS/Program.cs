@@ -126,9 +126,9 @@ namespace ECS
         }
         static void Main(string[] args)
         {
-            TestECS();
+            //TestECS();
 
-            /*TankFactory tankFactory = new TankFactory();
+            TankFactory tankFactory = new TankFactory();
 
             // create two tanks
             int tank1 = tankFactory.Create("Sherman");
@@ -167,7 +167,7 @@ namespace ECS
                     Console.WriteLine(tankFactory.Get<Name>(tank1, CFID.NAME).name + " wins." );
                     battle_ongoing = false;
                 }
-            }*/
+            }
         }
     }
 }
