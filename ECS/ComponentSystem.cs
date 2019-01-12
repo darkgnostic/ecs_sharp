@@ -7,53 +7,6 @@ using System.Threading.Tasks;
 
 namespace ECS
 {
-    /*public class entity_t
-    {
-        private int Value = 0;
-        public static implicit operator int(entity_t ts) => ts.Value;
-        public static implicit operator entity_t(int val) => new entity_t { Value = val };
-
-        public static bool operator ==(entity_t obj1, entity_t obj2)
-        {
-            if (ReferenceEquals(obj1, obj2))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(obj1, null))
-            {
-                return false;
-            }
-            if (ReferenceEquals(obj2, null))
-            {
-                return false;
-            }
-
-            return (obj1.Value == obj2.Value);
-        }
-        public static bool operator !=(entity_t obj1, entity_t obj2)
-        {
-            return !(obj1 == obj2);
-        }
-    }
-
-    public class family_t
-    {
-        private int Value = 0;
-        public static implicit operator int(family_t ts) => ts.Value;
-        public static implicit operator family_t(int val) => new family_t { Value = val };
-    }
-
-    public class cid_t
-    {
-        private int Value = 0;
-        //public static implicit operator uint(cid_t ts) => ts.Value;
-        //public static implicit operator cid_t(uint val) => new cid_t { Value = val };
-        public static implicit operator int(cid_t ts) => ts.Value;
-        public static implicit operator cid_t(int val) => new cid_t { Value = val };
-    }*/
-
-
     public class Component
     {
         public int    mUniqueId = 0;
@@ -97,11 +50,6 @@ namespace ECS
             throw new System.InvalidOperationException("Index is out of range");
         }
     }
-
-    //typedef std::vector<ComponentPtr>             component_vector;
-    //typedef std::map<entity_t, component_vector>  component_map;
-    //typedef std::vector< entity_t >	entity_array;
-    //typedef std::list<entity_t>   entity_list;
 
     public class ComponentSystem
     {
