@@ -108,13 +108,17 @@ namespace ECS
         /// <returns>	Attached component. </returns>
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         ///
-        public T CreateComponent<T>( int entityId ) where T : Component
+        public T CreateComponent<T>( int entityId ) where T : Component, new()
         {
             ValidateEntity(entityId);
 
             if (mErasedIds.Count == 0 )
             {
-                T newComponent = (T)Activator.CreateInstance(typeof(T));
+                T newComponent = new T
+                {
+                    // no. put new component into the system
+                    mEntityId = entityId
+                };
 
                 // no. put new component into the system
                 newComponent.mEntityId = entityId;
@@ -211,7 +215,7 @@ namespace ECS
         /// </returns>
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public Component Replace<Type>( int uniqueId,  int entityId ) where Type : Component
+        public Component Replace<Type>( int uniqueId,  int entityId ) where Type : Component, new()
         {
             ValidateEntity(entityId);
 
@@ -223,10 +227,11 @@ namespace ECS
                     mComponentArray.Resize(uniqueId + 1);
                 }
 
-                Type newComponent = (Type)Activator.CreateInstance(typeof(Type));
-
-                newComponent.mUniqueId = uniqueId;
-                newComponent.mEntityId = entityId;
+                Type newComponent = new Type
+                {
+                    mUniqueId = uniqueId,
+                    mEntityId = entityId
+                };
 
                 mComponentArray[uniqueId] = newComponent;
 
@@ -673,7 +678,7 @@ namespace ECS
         }
 
         
-	    protected T DuplicateComponent<T>(int newEntityId, ref T sourceComponent) where T : Component
+	    protected T DuplicateComponent<T>(int newEntityId, ref T sourceComponent) where T : Component, new()
         {
             // NOTE: yet to check
             ValidateEntity(newEntityId);
