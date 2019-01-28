@@ -72,18 +72,6 @@ namespace ECS
         {
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// <summary>	Destructor. </summary>
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        ~ComponentSystem()
-        {
-            mComponentArray.Clear();
-            mErasedIds.Clear();
-            //mEntityComponentMap.clear();
-            mEntityComponentArray.Clear();
-            mFamilyComponentMap.Clear();
-        }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>	Creates new entity under specific identifier. Currently used for loading. </summary>

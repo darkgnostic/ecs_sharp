@@ -20,12 +20,6 @@ namespace ECS
             Entities.Add(Entities.Count);
         }
 
-        ~EntitySystem()
-        {
-            Entities.Clear();
-            ErasedIds.Clear();
-        }
-
         public int CreateNewEntity()
         {
             //
