@@ -58,7 +58,7 @@ namespace ECS
 	    public int Create( string name )
         {
             // create new entity
-            int eid = entitySystem.CreateNewEntity();
+            int eid = Entity.CreateNewEntity();
 
             // add attack, health, name and armor components to entity
             CreateComponent<Attack>(eid);

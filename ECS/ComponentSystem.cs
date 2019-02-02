@@ -53,7 +53,7 @@ namespace ECS
 
     public class ComponentSystem
     {
-        protected EntitySystem entitySystem = new EntitySystem();
+        protected EntitySystem Entity = new EntitySystem();
 	    private List<Component> mComponentArray = new List<Component>();
         /// <summary>	List of erased unique identifiers. </summary>
         private LinkedList<int> mErasedIds = new LinkedList<int>();
@@ -83,7 +83,7 @@ namespace ECS
         {
             ValidateEntity(entityId);
 
-            return entitySystem.CreateNewEntityUnderId(entityId);
+            return Entity.CreateUnderId(entityId);
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,7 +100,7 @@ namespace ECS
         {
             ValidateEntity(entityId);
 
-            if (mErasedIds.Count == 0 )
+            //if (mErasedIds.Count == 0 )
             {
                 T newComponent = new T
                 {
@@ -352,7 +352,11 @@ namespace ECS
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// <summary>	Appends component list based on components family and entity id. </summary>
+        /// <summary>	
+        ///     Appends component list based on components family and entity id. 
+        ///     This function should be faster, and used  than GetComponentsByFamilyAndEntity, because it will have smaller
+        ///     amount of components in component array. 
+        /// </summary>
         /// <param name="entityId">		 	Unqiue identifier for the entity. </param>
         /// <param name="familyId">		 	Unqiue identifier for the family. </param>
         /// <param name="componentsList">	[out] List of components. </param>
@@ -450,7 +454,7 @@ namespace ECS
             mFamilyComponentMap.Clear();
 
             /// <summary>	The dummy component. Used for return values. </summary>
-            entitySystem.Clear();
+            Entity.Clear();
         }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -466,11 +470,7 @@ namespace ECS
         public Type Get<Type>( int entityId,  int familyId ) where Type : Component
         {
             Component ptr = FindFirstComponentByEntityAndFamily(entityId, familyId);
-
-            if (ptr != null)
-                return (Type)(ptr);
-
-            return null;
+            return ptr as Type;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -480,7 +480,7 @@ namespace ECS
         public void RebuildErasedIDs()
         {
             mErasedIds.Clear();
-            for (int i = 1; i < Size(); i++)
+            for (int i = 1; i < Size; i++)
             {
                 if (mComponentArray[i].Valid() == false )    // or use_count() == 0 ?
                     mErasedIds.AddLast(i);
@@ -492,20 +492,11 @@ namespace ECS
         /// <returns>	. </returns>
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public int Size()
-        {
-            return mComponentArray.Count;
-        }
+        public int Size => mComponentArray.Count;
 
-        public int EntitySize()
-        {
-            return entitySystem.Size();
-        }
+        public int EntitySize => Entity.Size();
 
-        public int ErasedIDSize()
-        {
-            return mErasedIds.Count;
-        }
+        public int ErasedIDSize => mErasedIds.Count;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>	Count components by entity and family. </summary>
@@ -609,7 +600,7 @@ namespace ECS
             // NOTE: yet to check
             ValidateEntity(entityId);
 
-            if (entitySystem.Delete(entityId))
+            if (Entity.Delete(entityId))
             {
                 List<Component> components = new List<Component>();
                 GetComponentsByEntity(entityId, ref components);

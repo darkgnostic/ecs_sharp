@@ -18,7 +18,7 @@ namespace ECS
         {
             Clear();
             for (int i = 0; i <= numEntities; i++)
-                entitySystem.CreateNewEntity();
+                Entity.CreateNewEntity();
 
             for (int i = 0; i < numComponents; i++)
             {
@@ -30,13 +30,13 @@ namespace ECS
         }
         public void Test()
         {
-            int e1 = entitySystem.CreateNewEntity();
+            int e1 = Entity.CreateNewEntity();
 
             var c1_1 = CreateComponent<COM1>(e1);
             var c2_1 = CreateComponent<COM2>(e1);
             var c3_1 = CreateComponent<COM3>(e1);
 
-            int e2 = entitySystem.CreateNewEntity();
+            int e2 = Entity.CreateNewEntity();
 
             var c1_2 = CreateComponent<COM1>(e2);
             var c2_2 = CreateComponent<COM2>(e2);
@@ -57,6 +57,9 @@ namespace ECS
 
         public void Benchmark()
         {
+            CreateComponents(100, 100);
+            Get<COM4>(0, -1);   // should produce null
+
             int numEntites = 1000;
             int numComponents = 100000;
             Benchmark(() =>
@@ -66,7 +69,7 @@ namespace ECS
             }, 10, "Creating components");
 
 
-            Console.Write("Component count is: {0}, ", Size() - ErasedIDSize());
+            Console.Write("Component count is: {0}, ", Size - ErasedIDSize);
             Benchmark(() =>
             {
                 /* your code */
@@ -77,7 +80,7 @@ namespace ECS
                 }
             }, 100, "Fetching 100K times by entity");
 
-            Console.Write("Component count is: {0}, ", Size() - ErasedIDSize());
+            Console.Write("Component count is: {0}, ", Size - ErasedIDSize);
             Benchmark(() =>
             {
                 /* your code */
@@ -88,7 +91,7 @@ namespace ECS
                 }
             }, 10, "Fetching 100K times by Entity & Family");
 
-            Console.Write("Component count is: {0}, ", Size() - ErasedIDSize());
+            Console.Write("Component count is: {0}, ", Size - ErasedIDSize);
             Benchmark(() =>
             {
                 /* your code */
@@ -99,7 +102,7 @@ namespace ECS
                 }
             }, 10, "Fetching 100K times by Family & Entity");
 
-            Console.Write("Component count is: {0}, ", Size() - ErasedIDSize());
+            Console.Write("Component count is: {0}, ", Size - ErasedIDSize);
             Benchmark(() =>
             {
                 /* your code */
@@ -111,20 +114,20 @@ namespace ECS
             }, 10, "Fetching 100K times by Family");
 
             
-            Console.Write("Component count is: {0}, ", Size() - ErasedIDSize());
+            Console.Write("Component count is: {0}, ", Size - ErasedIDSize);
             Benchmark(() =>
             {
-                CreateComponents(numEntites, 1000);
+                CreateComponents(numEntites, 10000);
                 for (int i = 0; i < 100000; i++)
                 {
-                    var uid = RND.GetRandomNumber(0, Size());
+                    var uid = RND.GetRandomNumber(0, Size);
                     DeleteComponent(uid);
                 }
                 Validate();
             }, 10, "Deleting 1K components");
 
             
-            Console.Write("Count after deletion is: {0}\n", Size() - ErasedIDSize());
+            Console.Write("Count after deletion is: {0}\n", Size - ErasedIDSize);
         }
 
         private static void Benchmark(Action act, int iterations, string desc)

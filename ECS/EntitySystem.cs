@@ -40,7 +40,7 @@ namespace ECS
 
         /// <summary>	Creates new entity under specific identifier. Gasps will be reserved and erased.
         /// 			In case entity ID is already reserved, function will fail. </summary>
-        public int CreateNewEntityUnderId(int entityId)
+        public int CreateUnderId(int entityId)
         {
             if (entityId > 0)
             {
@@ -191,7 +191,7 @@ namespace ECS
 
             Clear();
 
-            Debug.Assert(CreateNewEntityUnderId(10) == 10);
+            Debug.Assert(CreateUnderId(10) == 10);
             Debug.Assert(Entities.Count == 11); //   0->10
             Debug.Assert(ErasedIds.Count == 9); // we have eid 0 & eid 10 here only
             Delete(Entities.Count - 1); // erase last
