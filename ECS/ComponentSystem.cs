@@ -384,12 +384,8 @@ namespace ECS
 
         public void GetComponentsByEntityAndFamily(ref List<List<Component>> container, int entityId, int familyId, ref List<Component> componentsList )
         {
-            if (ValidateEntity(entityId, false) && ValidateFamily(familyId, false))
-            {
-                /*for (int i = 0; i < container[entityId].Count; i++)
-                    if (container[entityId][i].mFamilyId == familyId)
-                        componentsList.Add(container[entityId][i]);*/
-            }
+            throw new NotImplementedException();
+
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
